@@ -21,6 +21,7 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 
 | Path | Purpose |
 |---|---|
+| `docs/00-start-here.md` | **Read first** — who each document is for, and the 90-day plan |
 | `docs/01-diagnosis.md` | Why the current practices haven't moved delivery, and the live hypotheses |
 | `docs/02-measures.md` | What to measure, what each measure tells you, and what to stop measuring |
 | `docs/03-operating-cadence.md` | The rhythm: what happens daily, weekly, monthly, quarterly |
@@ -35,11 +36,14 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 
 ## How to start
 
-1. Read `docs/01-diagnosis.md`. Pick the two hypotheses you think are most likely.
-2. Stand up the measures in `docs/02-measures.md` for **one** team first (`docs/05-azure-devops.md`).
-3. Run the weekly review in `templates/weekly-team-review.md` for four weeks without
-   changing anything else. You are establishing a baseline, not fixing yet.
-4. Then run one experiment at a time from `templates/experiment-log.md`.
+**Read `docs/00-start-here.md`.** It says who each document is for, what to do in your
+first week, and the 90-day sequence.
+
+The short version: decide the sprint-boundary question, pick **one** team, baseline for
+four weeks without changing anything, then run one experiment at a time.
 
 Do not roll all of this out to all teams at once. You will not be able to tell what
 worked.
+
+Most of this repo is for you, not the teams. Only `docs/04-policies.md` and
+`docs/09-sprint-goals.md` are team-facing.
