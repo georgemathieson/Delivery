@@ -292,6 +292,10 @@ the repeat. That is what the facilitator's notes and the systemic-constraint hou
 `docs/03-operating-cadence.md` exist for. **Friction that recurs is a constraint; a
 constraint is work for the delivery lead, not another ticket for the team.**
 
+This class of problem — a long tail of small friction, each instance too small to be
+worth reporting — is where most delay actually comes from. See
+`docs/13-friction-and-delay.md`.
+
 ---
 
 ## Direction of travel

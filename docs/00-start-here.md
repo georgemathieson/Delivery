@@ -19,6 +19,7 @@ Most of it is **yours**, not the teams'.
 | `10-story-slicing` | **Team-facing** | Share with 09. Goals don't work on a layer-cut backlog |
 | `11-demand-and-intake` | You, then your sponsor | The portfolio layer. Your highest-leverage work |
 | `12-success-criteria` | You | Checkpoints. Read it now, before anything is invested |
+| `13-friction-and-delay` | You | Why delay is a tail, not a few blockers. Shapes what you listen for |
 | `sharing/` | You | For talking to other teams. Not before you have results — see its README |
 
 Only **04** and **09** go to teams, and not at the same time. Everything else is your
