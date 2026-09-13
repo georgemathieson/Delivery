@@ -134,6 +134,9 @@ also collapses two different problems — long waits and slow work — into one 
 Use the underlying breakdown instead: **time in waiting states, by state, in days**.
 Same diagnostic value, no false precision, and it names the queue you need to attack.
 
+A decision tree for routing between these hypotheses — in an order where the answers can
+be trusted — is in `docs/08-diagnostic-decision-tree.md`.
+
 ## What to do with this document
 
 Pick the two hypotheses you believe most. Set up the measures that test them

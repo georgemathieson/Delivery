@@ -6,6 +6,8 @@
 
 ---
 
+> Triage aid for aged items: `docs/08-diagnostic-decision-tree.md`, Tree 2.
+
 ## 1. Aging work in progress (5 min)
 
 Oldest first. Only items past the 70th percentile band need listing.

@@ -68,10 +68,12 @@ personally do all week.
 
 Keep the ceremony, change its content.
 
-- **Planning** stops being "what will we commit to". It becomes "what is the most
-  valuable thing to start next, and do we have the WIP headroom to start it?"
-- **Review** stops being "did we finish the sprint". It becomes "what did we finish,
-  what did we learn, and what is the current forecast?"
+- **Planning** stops being "what will we commit to". It becomes "what is this sprint
+  for?" (the sprint goal — `docs/09-sprint-goals.md`), then "what is the smallest set of
+  work that gets us there, and do we have the WIP headroom to start it?"
+- **Review** stops being "did we finish the sprint". It becomes "did we achieve the goal,
+  what did we learn, and what is the current forecast?" A goal missed because we learned
+  it was the wrong goal is a good sprint — say so out loud.
 - **Retrospective** gets one standing agenda item: the flow charts. What do they show
   that we didn't feel, and what did we feel that they don't show?
 

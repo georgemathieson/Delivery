@@ -28,6 +28,8 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 | `docs/05-azure-devops.md` | Getting the data out of Azure DevOps |
 | `docs/06-stakeholder-communication.md` | How to hold a probabilistic conversation without losing trust |
 | `docs/07-tooling-shortlist.md` | Software that can help, and what to build vs buy |
+| `docs/08-diagnostic-decision-tree.md` | Routing: which hypothesis to chase, and how to triage an aged item |
+| `docs/09-sprint-goals.md` | Writing sprint goals that don't reinstate scope commitment |
 | `templates/` | Fillable packs for each cadence event |
 | `teams/` | One folder per team: running log, policies, current state |
 
