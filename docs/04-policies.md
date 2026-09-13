@@ -42,7 +42,11 @@ review.
 
 - Limits apply per state where a queue forms — particularly **code review** and **ready
   for test**, not just "in progress".
-- A limit that is never hit is not a limit. If it hasn't bound in three weeks, lower it.
+- A limit that is never hit is not a limit. If it hasn't bound in three weeks, lower it —
+  **but there is a floor.** Simulation (`sim/FINDINGS.md`, finding 1) shows a limit below
+  roughly one item per person plus a small buffer starves the system: a blocked item idles
+  someone with nothing to pick up. Stop lowering when throughput starts falling. Going
+  from 12 to 6 nearly halves delivery time; going from 6 to 3 makes it worse again.
 - When the limit is hit, the team **finishes something before starting something**. That
   usually means swarming on the oldest item, which is the point.
 
@@ -118,9 +122,16 @@ consistently optimistic.
 
 ## Expedites
 
-Different from unplanned work, and more damaging: an expedite **pre-empts** work already
-in progress. Unplanned work joins the queue; an expedite jumps it, and everything it
-jumped pays for it.
+An expedite **pre-empts** work already in progress, where unplanned work joins the queue.
+
+Worth being accurate about the harm: simulation (`sim/FINDINGS.md`, finding 3) found that
+at low volume, pre-empting costs almost exactly what queueing costs. **The damage is in
+the volume, not the queue-jumping.** Five expedites a sprint cost far more than two; two
+expedites cost about what two queued items cost.
+
+Queue-jumping still matters — it makes individual items unpredictable and it is corrosive
+to trust — but limit the lane for the reason that actually holds: **a limit is what forces
+you to count them**, and the count is what reveals the volume.
 
 - **Limit the expedite lane — even if the limit is one.** A second expedite waits, or
   something gives way visibly.
@@ -157,7 +168,12 @@ In a flow system prioritisation is continuous, and the daily decision is not *wh
 start* but **what to finish next**.
 
 - Visualise work item age, so the decision has information behind it.
-- When all else is equal, **pull the oldest item first**.
+- When all else is equal, **pull the oldest item first**. Be clear what this buys:
+  simulation (`sim/FINDINGS.md`, finding 4) shows oldest-first slightly *worsens* the
+  median wait and substantially improves the tail — 95th percentile wait fell from 322
+  days to 247. It is a **predictability choice, not a speed choice.** Anyone who adopts it
+  expecting things to get faster, then measures the median, will correctly conclude it
+  made things worse.
 - Have an explicit pull policy, so this isn't re-argued every morning.
 
 Work waiting silently is not harmless. It is accruing risk and decay while looking like
@@ -186,6 +202,14 @@ Right-sizing is already in place. To keep it honest:
   place — protect it.
 - The throughput history feeding the simulation must be from the **same system**:
   same team, same composition, includes unplanned work, no boundary-split artefacts.
+- **Use a rolling window of roughly 6–12 weeks of throughput, not "as much as possible".**
+  Simulation (`sim/FINDINGS.md`, finding 6) found a 6-week window almost perfectly
+  calibrated under stable capacity, while a 24-week window put a third of actuals beyond
+  its own 85th percentile once capacity shifted — it keeps averaging in a regime that no
+  longer exists. More history is more dangerous, not safer.
+- **A run of actuals landing beyond the 85th percentile is the signature of a regime
+  change, not bad luck.** Shorten the window and look for what changed — team
+  composition, unplanned work, an incident — rather than apologising for the forecast.
 - Re-forecast on a fixed schedule (monthly) and when scope materially changes. Do not
   re-forecast because someone dislikes the answer.
 - Record every forecast in `teams/<team>/forecasts.md` **at the time it is made**, with

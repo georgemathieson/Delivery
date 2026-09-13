@@ -30,6 +30,18 @@ single question of each — *what is stopping this finishing today?* Not "how's 
 **Policy:** any item past the 85th percentile band gets an owner and a named next action
 before the meeting ends. Past the 95th, it gets escalated to you.
 
+**Be precise about what the band means.** It is *not* a prediction. Asking whether
+crossing the 70th band predicts passing the 85th is tautological — any item past the 70th
+percentile was by definition open when it crossed it, in any system whatsoever. An aging
+chart has no predictive skill.
+
+What it has is **attention allocation**, and that is strong enough on its own:
+simulation (`sim/FINDINGS.md`, finding 7) found roughly a quarter of items carry over
+four-fifths of the excess delay. Looking at that quarter is an excellent use of thirty
+minutes. The chart reports that an item is *already* unusual — which is useful for a
+different reason than prediction, and worth saying accurately, because a team that is
+promised prediction will notice it isn't getting one.
+
 ### 2. Work in Progress (WIP)
 
 Count of items in any active or waiting state, per team, per day.
@@ -85,6 +97,25 @@ landed; you can control how long you are exposed before finding out.
 
 *(Framing from Paul Brown, ["The Dirty Secret Behind Agile
 Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure).)*
+
+---
+
+### 5. Backlog wait — the one the core four cannot see
+
+Days between an item entering the backlog and someone starting it.
+
+**Why it matters:** everything above measures start-to-finish. Whatever happens to an item
+*before* work begins is invisible to all four. Simulation (`sim/FINDINGS.md`, finding 5)
+found two pull policies with cycle-time 95th percentiles of 11.6 and 11.8 days —
+indistinguishable — whose backlog waits differed by 75 days at the 95th percentile.
+
+A team can have items rotting in the backlog for a year and see nothing but healthy
+charts. This is the sprint-boundary blind spot one stage upstream: **the core four are a
+system view, not a customer view.** From outside, the wait is part of the wait.
+
+**Action it drives:** if backlog wait has a long tail, either the backlog contains work
+nobody intends to do — delete it, it is costing you honesty — or intake exceeds capacity
+(`docs/11-demand-and-intake.md`).
 
 ---
 

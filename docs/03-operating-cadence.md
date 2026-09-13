@@ -120,6 +120,9 @@ Template: `templates/monthly-delivery-report.md`.
 | Thu | Work on the one systemic constraint you identified | 60 min |
 | Fri | Update `teams/<team>/log.md` for each team; note anything for the monthly | 20 min |
 
+A worked example of exactly this week — the numbers, the conversations, and the same week
+when it goes wrong — is in `docs/14-a-week-in-practice.md`.
+
 The Thursday hour is the part that gets dropped first and matters most. Facilitating
 reviews makes problems **visible**; only that hour makes them **go away**. If you never
 protect it, you will have built an excellent reporting system and changed nothing.
