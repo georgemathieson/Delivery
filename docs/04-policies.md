@@ -116,6 +116,55 @@ consistently optimistic.
 
 ---
 
+## Expedites
+
+Different from unplanned work, and more damaging: an expedite **pre-empts** work already
+in progress. Unplanned work joins the queue; an expedite jumps it, and everything it
+jumped pays for it.
+
+- **Limit the expedite lane — even if the limit is one.** A second expedite waits, or
+  something gives way visibly.
+- **Define entry criteria.** What genuinely qualifies? Write it down before the next one
+  arrives, because in the moment everything qualifies.
+- **Track the frequency.** If you are expediting weekly, it is not an exception, it is a
+  process failure. Count them monthly alongside blocked days.
+- **Make the cost visible.** Every expedite delays something else. Name what it delayed,
+  in the review, out loud. Treat them like a credit card: usable, but paid off.
+
+Expedites should be rare, deliberate, and slightly uncomfortable. That discomfort is the
+signal they are being used responsibly — a frictionless expedite lane becomes the default
+route within a quarter.
+
+And ask the question underneath, which is the one that actually fixes it:
+
+> **What are we doing wrong that makes so many things urgent?**
+
+Recurring expedites are almost never a series of unrelated emergencies. They are a
+symptom — of intake that isn't managed, of forecasts nobody believes, or of quality
+problems surfacing late.
+
+*(Policy shape from Paul Brown, ["The Dirty Secret Behind Agile
+Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure).)*
+
+---
+
+## Ongoing prioritisation
+
+Most teams prioritise at intake and then never again. Once work is in progress it goes
+out of sight, and old items linger while newer, shinier ones leapfrog them.
+
+In a flow system prioritisation is continuous, and the daily decision is not *what to
+start* but **what to finish next**.
+
+- Visualise work item age, so the decision has information behind it.
+- When all else is equal, **pull the oldest item first**.
+- Have an explicit pull policy, so this isn't re-argued every morning.
+
+Work waiting silently is not harmless. It is accruing risk and decay while looking like
+nothing is happening.
+
+---
+
 ## Right-sizing
 
 Right-sizing is already in place. To keep it honest:

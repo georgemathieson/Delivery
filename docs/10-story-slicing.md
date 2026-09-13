@@ -68,6 +68,29 @@ chart in `docs/02-measures.md` will catch it afterwards.
 
 ---
 
+## WIP-in-disguise
+
+A story can pass every size check and still not flow, because it carries the full weight
+of the epic it came from. The card is small; the work isn't.
+
+Symptoms:
+
+- Stories that **reference each other** to make sense
+- Stories that **all have to ship together** to be useful
+- A single story taking **multiple people across multiple sprints** to finish
+
+The cleanest single test, which collapses both constraints in this document into one:
+
+> **Treat *independently valuable* as the definition of right-sized.**
+>
+> If it can't move, be tested, or finish on its own, it is still too big — however small
+> the card looks on the board.
+
+*(Framing from Paul Brown, ["The Dirty Secret Behind Agile
+Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure).)*
+
+---
+
 ## Two levels, both vertical
 
 The most common overcorrection once a team learns to slice vertically: they stop cutting

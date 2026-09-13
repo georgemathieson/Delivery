@@ -110,3 +110,24 @@ dashboards nobody reads, and you only get one credible rollout per year.
 - [Running Monte Carlo Simulations in Azure DevOps](https://medium.com/@benjihuser/running-monte-carlo-simulations-in-azure-devops-728746ef15be)
 - [Agile Analytics for Azure DevOps](https://ado-analytics.baytekdev.com/)
 - [FlowPulse](https://pypi.org/project/flowpulse/1.0.6)
+
+---
+
+## Further reading
+
+Beyond the sources above, one article covers much of the same ground as this repo,
+reached independently:
+
+- Paul Brown, ["The Dirty Secret Behind Agile
+  Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure) — argues that
+  Agile is incomplete rather than wrong, because it never taught flow. Names the same four
+  metrics used here. Three ideas borrowed into this repo: *WIP-in-disguise*
+  (`docs/10-story-slicing.md`), the expedite policy and ongoing prioritisation
+  (`docs/04-policies.md`), and cycle time as time-to-feedback and therefore risk exposure
+  (`docs/02-measures.md`).
+
+  Worth reading with the caveat that it is argued from experience rather than evidence —
+  it tells you what is wrong, where this repo makes you measure whether it is. It also
+  stops at the team boundary: it has no equivalent of `docs/11-demand-and-intake.md`, no
+  forecast calibration, and does not confront the sprint-as-commitment-container problem
+  in `docs/01-diagnosis.md`.

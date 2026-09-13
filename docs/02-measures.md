@@ -70,6 +70,22 @@ quote to stakeholders — "most items land within N days" — not the average.
 **Action it drives:** track the **gap** between 50th and 95th percentile over time. That
 gap narrowing is the single clearest evidence that predictability work is working.
 
+**The second reason cycle time matters — worth using with stakeholders:**
+
+> **Cycle time is time to feedback. In the absence of knowable ROI, it is your risk
+> exposure.**
+
+Most of what gets built is a bet. Value is unconfirmed until someone on the receiving end
+says it helped. So every day an item is open is a day spent without learning whether the
+bet was right — and the only thing worse than being wrong is being wrong slowly.
+
+This reframes cycle time from a delivery metric into a **risk metric**, which is a
+language stakeholders already speak. You cannot measure return on work that hasn't
+landed; you can control how long you are exposed before finding out.
+
+*(Framing from Paul Brown, ["The Dirty Secret Behind Agile
+Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure).)*
+
 ---
 
 ## Supporting measures
@@ -80,6 +96,7 @@ gap narrowing is the single clearest evidence that predictability work is workin
 | Blocked days by reason | Total days blocked, grouped by tagged reason | Whether blockers are systemic or one-off | H6 |
 | Started-to-first-activity | Days from "started" to first commit/PR/real activity | Work pulled before it was ready | H2 |
 | Unplanned work % | Items created mid-sprint not in the plan ÷ total throughput | Hidden capacity drain, and whether the forecast history is honest | H3 |
+| Expedite frequency | Count of items that pre-empted work in progress, per month | Whether urgency is running the system | H3 |
 | Arrival vs departure rate | Items started per week vs finished per week | Whether WIP is structurally growing | H1 |
 | Aging carryover | Items open across 2+ sprint boundaries | Whether the boundary is hiding age | H4 |
 | Forecast accuracy | Actual delivery date vs the forecast distribution it fell in | Whether the forecast is calibrated | — |
