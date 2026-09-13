@@ -81,6 +81,89 @@ months should say so rather than being quietly relabelled.
 
 ---
 
+## Fractional allocation
+
+The same problem one altitude down: instead of a team carrying too many initiatives, a
+*person* is carrying too many. "Sarah is 80% on the catalogue and 20% on payments."
+
+### Where the 20% came from
+
+A funding or headcount spreadsheet, essentially always. Someone needed the columns to sum
+to 100% and 80/20 made them sum. It is a **financial allocation reported as a capacity
+plan**, and it has never been checked against what the person actually did.
+
+Two questions retire it:
+
+- What evidence is there that it was ever 20%? (There will be none.)
+- What would have to be true for it to be exactly 20%? The person would have to switch on
+  a schedule, lose nothing in the switch, and neither stream would ever be urgent.
+
+### It isn't 80/20
+
+The commonly cited rule of thumb (Weinberg) is roughly a 20% loss per additional
+concurrent stream:
+
+| Streams | Nominal each | After switching loss |
+|---|---|---|
+| 1 | 100% | 100% |
+| 2 | 50% | ~40% |
+| 3 | 33% | ~20% |
+| 4 | 25% | ~10% |
+
+Treat the figures as illustrative rather than measured — it is a heuristic, not a
+finding. The direction is not in doubt. 80/20 behaves more like 65/15, with a fifth of a
+person disappearing into the switch. Because the loss is invisible, it never appears in
+anyone's plan, which is exactly why the plan keeps looking achievable.
+
+### Parallelism is not interleaving
+
+A fast-food kitchen handles many orders at once, so "we can't do two things at once" is
+easy to rebut. The precise version survives:
+
+> **They split the work across stations. They don't split a person across orders.**
+
+The grill cook is not 80% burgers and 20% fries. Each station does one thing, the *work*
+moves between people, and nobody pauses an order at 60% to start another.
+
+| | What it is | Verdict |
+|---|---|---|
+| **Parallelism** | Several items in flight, each person doing one thing | Fine — this is how teams work |
+| **Interleaving** | One person divided across several items | This is fractional allocation |
+
+Nobody works on two things at once. Fractional allocation is **switching between two
+things and calling the switching a percentage.**
+
+### What it is actually for
+
+This is the part to lead with in any conversation about it.
+
+80/20 exists because it lets **two sponsors both hear yes.** It converts a hard
+prioritisation decision into an arithmetic fiction in which nobody loses. That is why it
+survives despite everyone privately knowing it does not work: it is not a capacity
+decision that happens to be wrong, it is a **conflict-avoidance device wearing a capacity
+decision's clothes.**
+
+So the counter is not a better percentage. It is the queue conversation above, at the
+level of a person:
+
+> *Which of these two matters more? Whichever you say, that one happens first and the
+> other happens next — and both finish sooner this way than if we split someone across
+> them.*
+
+That is not a refusal. It is a sequencing decision, offered to the person whose decision
+it actually is.
+
+### Measure it before you argue it
+
+Compare cycle time for items owned by people allocated wholly to one team against items
+owned by people split across two. Same board, same period, no new tooling — this is the
+H7 test in `docs/01-diagnosis.md`.
+
+"Fractional allocation costs us" is an opinion. "Items owned by split people take 2.4×
+longer to finish here" is not. Get the number before the conversation, not after.
+
+---
+
 ## The started-equals-committed trap
 
 An initiative that has been started is dramatically harder to stop than one that has not,
@@ -103,6 +186,7 @@ Two consequences:
 |---|---|
 | Week 1 | Count concurrent initiatives across your teams. Write the number down |
 | Week 2 | Map who can start work, and how. Expect this to be informal and undocumented |
+| Week 3 | Count people allocated at less than 100% to one team. Measure their cycle times against everyone else's |
 | Week 4 | Take the count to whoever owns the portfolio. Frame it with the table above, not as a complaint |
 | Week 6 | Propose a concurrent-initiative limit, and the queue that goes with it |
 | Ongoing | Nothing starts without something finishing. This is the whole intervention |
