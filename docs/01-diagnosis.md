@@ -59,6 +59,10 @@ boundary is.
 Ordered by likelihood for 2–3 mostly-independent teams with right-sized stories.
 Each has a falsification test — do not debate these, measure them.
 
+H3, H4, H7 and H8 all corrupt or exclude data the others rely on, so rule them out first
+(`docs/08-diagnostic-decision-tree.md`). A confident diagnosis built on a polluted
+throughput history is worse than no diagnosis.
+
 ### H1 — Too much work in progress
 Items are started faster than they are finished, so everything is simultaneously
 half-done and nothing lands inside the boundary. This is the most common cause by a
@@ -118,6 +122,40 @@ waiting states (review, ready-for-test, ready-for-release, blocked).
 *If true:* pull those states onto the board, then limit WIP in them specifically. Review
 queues in particular respond very well to a WIP limit.
 
+### H7 — Fractional allocation and team instability
+
+People split across teams or projects at percentages, or team composition churning.
+Someone at "50% on each of two teams" does not deliver half on each — context switching
+takes a cut off the top, and they are a shared resource both teams queue behind.
+
+This one matters disproportionately because **Monte Carlo assumes a stable system**. If
+membership changed three months ago, the throughput history describes a team that no
+longer exists, and the forecast is confidently describing fiction.
+
+*Test:* how many people are allocated at less than 100% to one team? Overlay team
+composition changes on the throughput run chart — steps in throughput usually line up
+with joiners and leavers rather than with anything the team did.
+
+*If true:* often the single largest lever available, and the hardest to pull, because it
+is an organisational allocation decision rather than a team practice. Worth the fight.
+Consolidating two half-people into one whole one reliably beats any process change in
+this repo.
+
+### H8 — Rework and defect loops
+
+Items that come back: returned from review, reopened after test, or fixed post-release.
+This is **invisible WIP**. If cycle time is measured to first "done", the rework loop is
+excluded entirely, and the team looks faster than it is while capacity silently drains.
+
+*Test:* count items reopened or returned from a later state, as a percentage of
+throughput. Compare "first marked done" against "finally done" for the same item. Count
+defects found after release, by originating item.
+
+*If true:* a quality problem wearing a speed problem's clothes — and the important
+consequence is that **pressure makes it worse**. Any intervention aimed at going faster
+will increase the rework rate and reduce net throughput. Fix the loop before touching
+anything else.
+
 ### H6 — Dependency and decision wait
 Lower probability given mostly-independent teams, but decisions still queue. Waiting on
 a product decision, a security sign-off, or a third party looks identical to being slow.
@@ -133,6 +171,13 @@ also collapses two different problems — long waits and slow work — into one 
 
 Use the underlying breakdown instead: **time in waiting states, by state, in days**.
 Same diagnostic value, no false precision, and it names the queue you need to attack.
+
+There is a ninth cause that sits above all of these and is not a team problem at all:
+more initiatives running concurrently than the teams can carry. Team-level WIP limits
+cannot fix it, because the demand arrives from outside the team. See
+`docs/11-demand-and-intake.md` — for a delivery lead running several projects, this is
+usually the highest-leverage thing available, and the only one on this page you can
+act on alone.
 
 A decision tree for routing between these hypotheses — in an order where the answers can
 be trusted — is in `docs/08-diagnostic-decision-tree.md`.
