@@ -22,6 +22,7 @@ Most of it is **yours**, not the teams'.
 | `13-friction-and-delay` | You | Why delay is a tail, not a few blockers. Shapes what you listen for |
 | `14-a-week-in-practice` | You | A worked week. Read alongside `03` before your first review |
 | `sharing/` | You | For talking to other teams. Not before you have results — see its README |
+| `sim/` | You | Where the policies break. Read `sim/FINDINGS.md`; it corrects four things in `docs/` |
 
 Only **04** and **09** go to teams, and not at the same time. Everything else is your
 own instrumentation. Handing a team `01-diagnosis` reads as "here are six theories about

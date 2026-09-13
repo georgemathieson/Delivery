@@ -42,6 +42,7 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 | `templates/` | Fillable packs for each cadence event |
 | `teams/` | One folder per team: running log, policies, current state |
 | `sharing/` | Talking to other teams — the talk, the pushback, the small ask |
+| `sim/` | A flow simulation used to stress-test the policies in `docs/` |
 
 ## How to start
 
