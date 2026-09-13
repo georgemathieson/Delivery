@@ -14,9 +14,57 @@ They stop fighting the moment you make it small by **removing scope**.
 - **Thin vertical slice** — a narrower capability, working end to end. Equally small,
   but deployable, demoable, and capable of being wrong in a way you find out about now.
 
-Right-sizing was adopted to reduce risk. Horizontal slicing reduces *item size* while
-**increasing** risk, because nothing is proven until the layers meet. It looks like
-right-sizing and does the opposite.
+### Why horizontal slicing increases risk while looking like right-sizing
+
+Risk here means **the chance of being wrong and not finding out until it is expensive**.
+Right-sizing reduces it by shortening the loop from decision to consequence: a small item
+finishes, integrates, deploys, gets used, and you learn.
+
+A horizontal cut shortens the **ticket** but not the **loop**. Nothing is learned when
+"Add API to get endpoints" is marked done, because nothing has met anything yet. The loop
+is still as long as the whole capability.
+
+What that looks like in practice:
+
+```
+Day 3   001 "Add API to get endpoints"    -> Done. Throughput +1. Cycle time 3 days.
+Day 6   002 "Add UI to display endpoints" -> in progress
+Day 6   ...the API returns owner as a directory group ID.
+        The UI needs a display name. No lookup exists.
+```
+
+Three consequences, in increasing order of damage:
+
+1. **The cost lands on the wrong item.** The rework happens *inside* 002, silently — it is
+   rarely raised as a new ticket. 002 gets a long, unexplained cycle time while 001 stays
+   on record as fast and clean. The data misattributes the cost.
+2. **The mismatch surfaced at the most expensive moment.** Had the story been "see a list
+   of endpoints with owner name, end to end", the same problem appears on day one, when
+   changing the API costs an hour.
+3. **Nothing was deployable in between.** The larger risk — *is this the right thing at
+   all?* — went entirely untested.
+
+It looks like right-sizing because on everything easily visible, it is identical:
+
+| | Horizontal slice | Thin vertical slice |
+|---|---|---|
+| Item size | small | small |
+| Item count | high | high |
+| **Risk over time** | **back-loaded** | **front-loaded** |
+
+Only the last row differs, and it is not in the instrumentation.
+
+It does the *opposite* of right-sizing because it makes the measures **report health while
+risk increases**. Throughput counts an item that delivered nothing to anyone. Cycle time
+records a short, clean completion. The aging chart stays calm, because horizontal items
+genuinely do finish quickly.
+
+A team can therefore slice horizontally, watch every flow metric improve, and accumulate
+more unvalidated risk each sprint than before — with the instrumentation confirming the
+practice causing the problem.
+
+This is why the vertical constraint has to be checked **when the story is written**. No
+chart in `docs/02-measures.md` will catch it afterwards.
 
 ---
 
