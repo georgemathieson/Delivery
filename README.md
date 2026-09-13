@@ -17,10 +17,13 @@ or lost.
 
 This repository is the instrumentation and the operating rhythm for acting on flow.
 
+**[One-page overview →](OVERVIEW.md)**
+
 ## What's here
 
 | Path | Purpose |
 |---|---|
+| `OVERVIEW.md` | The one-pager — the system, its three loops, and what it makes possible |
 | `docs/00-start-here.md` | **Read first** — who each document is for, and the 90-day plan |
 | `docs/01-diagnosis.md` | Why the current practices haven't moved delivery, and the live hypotheses |
 | `docs/02-measures.md` | What to measure, what each measure tells you, and what to stop measuring |
