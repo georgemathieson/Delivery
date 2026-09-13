@@ -16,6 +16,7 @@ Most of it is **yours**, not the teams'.
 | `07-tooling-shortlist` | You | Later. Weeks 5+ |
 | `08-decision-tree` | You | Weekly routing aid |
 | `09-sprint-goals` | **Team-facing** | Share when you introduce goals — not in week 1 |
+| `10-story-slicing` | **Team-facing** | Share with 09. Goals don't work on a layer-cut backlog |
 
 Only **04** and **09** go to teams, and not at the same time. Everything else is your
 own instrumentation. Handing a team `01-diagnosis` reads as "here are six theories about
@@ -121,9 +122,10 @@ else on this list happens.**
 
 ### Month 4+ — make it stick
 
-- Introduce sprint goals (`09`), once, when scope commitment is genuinely dead. Not
-  before — introduced too early, they get written as scope lists and the practice is
-  spoiled.
+- Introduce sprint goals (`09`) **together with** slicing (`10`), once scope commitment
+  is genuinely dead. Not before — introduced too early they get written as scope lists
+  and the practice is spoiled. Introduced without `10`, they can't be written at all on a
+  layer-cut backlog, and the team will conclude goals don't work here.
 - Announce the boundary decision from step 1 explicitly to the teams. Ambiguity here is
   worse than either answer.
 - Hand weekly review facilitation to each team lead. Target: within six months you
