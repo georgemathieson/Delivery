@@ -238,6 +238,62 @@ the list**.
 
 ---
 
+## Tasks, items and enablers
+
+A common question once a team starts taking the board seriously: *someone needs to spend
+a morning getting the service running locally with enough data to test pagination — is
+that a story?*
+
+Usually **no**. It is part of doing the pagination story.
+
+Nobody raises an item for "open the IDE", "write the test", "attach the debugger". This
+is the same category, and giving it its own item does active harm:
+
+- The pagination story looks cheaper than it was
+- Throughput counts an item that delivered nothing to anyone
+- It is a horizontal slice — the setup half proves nothing until the pagination half lands
+
+That time **should** land inside the pagination story, because then that story's cycle
+time honestly reflects what pagination cost. That number feeds the forecast.
+
+### When it becomes an item
+
+Three conditions, any one of which is enough:
+
+| Condition | Why | Example |
+|---|---|---|
+| **Reusable** — the team will need it repeatedly | It has a real outcome and a real user | "Any developer can run the API locally against a realistic data volume" |
+| **Blocking more than this story** | The constraint is the environment, not the story that surfaced it | Several stories stalled on thin dev data |
+| **Breaches the right-size threshold** | The host story will blow its age band | Seeding realistic data turns out to be two days |
+
+Rough rule: **under a day and only this story needs it → it is the work. Longer, or
+others need it → it is an item.**
+
+Enabler items are legitimate. The user is the team, which is fine — the test in this
+document still applies unchanged: *if this were the last thing we shipped, would anything
+be better than before?* For "any developer can run the API locally with realistic data",
+yes.
+
+When an enabler is split out of a story already in progress, record it as a split and
+keep the original start date on the remainder (`docs/04-policies.md`). Otherwise the
+split reads as two fast items rather than one that turned out to be bigger than expected.
+
+### The signal that matters even without a ticket
+
+Most of these never become items, and they are still worth seeing.
+
+In the weekly flow review, the answer to *"what is stopping this finishing today?"* may
+be "I spent the morning getting enough data locally to test pagination". One developer
+for one hour is nothing. Three developers hitting the same thing in a month is thirty
+hours, plus the ones who didn't bother and shipped untested.
+
+No ticket is needed to catch that — only the question asked weekly and someone noticing
+the repeat. That is what the facilitator's notes and the systemic-constraint hour in
+`docs/03-operating-cadence.md` exist for. **Friction that recurs is a constraint; a
+constraint is work for the delivery lead, not another ticket for the team.**
+
+---
+
 ## Direction of travel
 
 That last point is the whole thing.

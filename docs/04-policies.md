@@ -86,12 +86,27 @@ bad luck; thirty blocked days a month on environments is a business case.
 
 ## Unplanned work
 
+**What this means: demand arriving from outside the team.** Production support, an
+escalation, a favour for another team, "can you just look at this". *Not* the tasks
+involved in delivering something already on the board.
+
 - All unplanned work goes on the board. No exceptions, including work that takes an
-  hour. Especially work that takes an hour.
+  hour. Especially work that takes an hour — small interrupts are the ones that never get
+  recorded, and they add up to a quarter of a team's capacity without anyone noticing.
 - It is tagged `unplanned` so it can be counted.
 - It counts against the WIP limit like anything else.
 - Reserve explicit capacity for it based on the measured percentage — don't pretend
   it's zero and absorb it invisibly.
+
+### The test
+
+> **Is this new demand, or is it part of delivering something already on the board?**
+
+Duration is not the test. A two-hour support request is unplanned work. A two-day
+refactor needed to finish the story in progress is not — it is that story.
+
+See "Tasks, items and enablers" in `docs/10-story-slicing.md` for the second half of
+that distinction.
 
 **And it must be included in the throughput history that feeds Monte Carlo.** If
 unplanned work consumes 25% of capacity but is absent from the data, the simulation is
