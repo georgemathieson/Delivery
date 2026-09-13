@@ -1,0 +1,551 @@
+<title>Delivery Flow Simulator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F5F7F8; --surface:#FFFFFF; --sunk:#EDF1F3;
+  --ink:#141A21; --ink-2:#3D4954; --muted:#59656F;
+  --rule:#DCE3E7; --grid:#E7ECEF;
+  --s1:#008C9E; --s1-soft:rgba(0,140,158,.14);
+  --s2:#B4531A; --s2-soft:rgba(180,83,26,.13);
+  --good:#1F7A4D; --warn:#A8620B; --crit:#AF2B2B;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#10151A; --surface:#181F26; --sunk:#131A20;
+    --ink:#E8EDF2; --ink-2:#B7C2CC; --muted:#8A97A3;
+    --rule:#28313A; --grid:#222B33;
+    --s1:#2AA7B0; --s1-soft:rgba(42,167,176,.18);
+    --s2:#D07E42; --s2-soft:rgba(208,126,66,.16);
+    --good:#4FAE7C; --warn:#D79A3C; --crit:#E2706B;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#10151A; --surface:#181F26; --sunk:#131A20;
+  --ink:#E8EDF2; --ink-2:#B7C2CC; --muted:#8A97A3;
+  --rule:#28313A; --grid:#222B33;
+  --s1:#2AA7B0; --s1-soft:rgba(42,167,176,.18);
+  --s2:#D07E42; --s2-soft:rgba(208,126,66,.16);
+  --good:#4FAE7C; --warn:#D79A3C; --crit:#E2706B;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+  padding-inline:20px;padding-block:22px 56px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 26px;
+  border-bottom:1px solid var(--rule);padding-bottom:16px}
+h1{font-size:1.32rem;font-weight:600;margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:0;color:var(--muted);font-size:.84rem;max-width:56ch}
+.eyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+
+.layout{display:grid;grid-template-columns:288px minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* ---- control rail ---- */
+.rail{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  padding:16px;display:flex;flex-direction:column;gap:16px;position:sticky;top:16px}
+@media(max-width:900px){.rail{position:static}}
+.rail h2{font-family:var(--mono);font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:0;font-weight:500}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{font-family:var(--sans);font-size:.74rem;padding:5px 9px;cursor:pointer;
+  background:var(--sunk);color:var(--ink-2);border:1px solid var(--rule);border-radius:4px}
+.presets button:hover{border-color:var(--s1);color:var(--s1)}
+.presets button[aria-pressed="true"]{background:var(--s1);border-color:var(--s1);color:#fff}
+:root[data-theme="dark"] .presets button[aria-pressed="true"],
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .presets button[aria-pressed="true"]{color:#06171a}}
+
+.ctl{display:flex;flex-direction:column;gap:5px}
+.ctl .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ctl label{font-size:.8rem;color:var(--ink-2)}
+.ctl output{font-family:var(--mono);font-size:.8rem;font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--s1);height:18px}
+select{width:100%;font-family:var(--sans);font-size:.8rem;padding:6px 8px;color:var(--ink);
+  background:var(--sunk);border:1px solid var(--rule);border-radius:4px}
+.hint{font-size:.71rem;color:var(--muted);line-height:1.45}
+.divider{height:1px;background:var(--rule)}
+.pinrow{display:flex;gap:8px}
+.pinrow button{flex:1;font-family:var(--sans);font-size:.76rem;padding:7px 8px;cursor:pointer;
+  border-radius:4px;border:1px solid var(--rule);background:var(--sunk);color:var(--ink-2)}
+.pinrow button:hover{border-color:var(--s2);color:var(--s2)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+
+/* ---- readout tiles ---- */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.tile{background:var(--surface);padding:11px 13px;display:flex;flex-direction:column;gap:3px}
+.tile .k{font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.tile .v{font-family:var(--mono);font-size:1.44rem;font-weight:500;line-height:1.1;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.tile .v small{font-size:.6em;color:var(--muted);font-weight:400}
+.tile .d{font-family:var(--mono);font-size:.71rem;font-variant-numeric:tabular-nums;min-height:1.1em}
+.d.up{color:var(--crit)} .d.down{color:var(--good)} .d.flat{color:var(--muted)}
+
+/* ---- charts ---- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+figure{margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  padding:13px 14px 10px;display:flex;flex-direction:column;gap:8px}
+figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px}
+figcaption .t{font-size:.87rem;font-weight:600}
+figcaption .n{font-size:.72rem;color:var(--muted)}
+svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.72rem;color:var(--ink-2);align-items:center}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:middle}
+.axis{font-family:var(--mono);font-size:9px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.bandlab{font-family:var(--mono);font-size:9px;fill:var(--muted)}
+.note{font-size:.78rem;color:var(--muted);background:var(--surface);border:1px solid var(--rule);
+  border-left:3px solid var(--s1);border-radius:var(--r);padding:11px 14px;line-height:1.55}
+.note b{color:var(--ink);font-weight:600}
+.tip{position:fixed;pointer-events:none;z-index:20;background:var(--surface);color:var(--ink);
+  border:1px solid var(--rule);border-radius:4px;padding:6px 8px;font-family:var(--mono);
+  font-size:.7rem;line-height:1.45;box-shadow:0 4px 14px rgba(0,0,0,.13);white-space:nowrap}
+.tip[hidden]{display:none}
+footer{font-size:.74rem;color:var(--muted);border-top:1px solid var(--rule);padding-top:14px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <span class="eyebrow">Delivery system · discrete-time model</span>
+    <h1>Delivery Flow Simulator</h1>
+  </div>
+  <p>400 right-sized stories, 15-day sprints. Move a control, watch what the team&rsquo;s own
+     charts would have shown. Pin a run to compare against it.</p>
+</header>
+
+<div class="layout">
+  <!-- ───────────── controls ───────────── -->
+  <form class="rail" id="rail" onsubmit="return false">
+    <div>
+      <h2>Scenario</h2>
+      <div class="presets" id="presets"></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="ctl">
+      <div class="top"><label for="engineers">Engineers</label><output id="engineers-o"></output></div>
+      <input type="range" id="engineers" min="2" max="8" step="1">
+    </div>
+    <div class="ctl">
+      <div class="top"><label for="wip">WIP limit</label><output id="wip-o"></output></div>
+      <input type="range" id="wip" min="2" max="18" step="1">
+      <p class="hint">Items allowed in progress at once. Below ~1 per person the system starves.</p>
+    </div>
+    <div class="ctl">
+      <div class="top"><label for="paired">Horizontally sliced</label><output id="paired-o"></output></div>
+      <input type="range" id="paired" min="0" max="100" step="10">
+      <p class="hint">Share of items paired: neither is releasable until both are done, with a
+         chance of rework when they finally meet.</p>
+    </div>
+    <div class="ctl">
+      <div class="top"><label for="expedite">Expedites / sprint</label><output id="expedite-o"></output></div>
+      <input type="range" id="expedite" min="0" max="8" step="1">
+    </div>
+    <div class="ctl">
+      <div class="top"><label for="unplanned">Unplanned / sprint</label><output id="unplanned-o"></output></div>
+      <input type="range" id="unplanned" min="0" max="8" step="1">
+    </div>
+    <div class="ctl">
+      <label for="regime">Capacity</label>
+      <select id="regime">
+        <option value="stable">Stable throughout</option>
+        <option value="shift">~20/sprint → ~25 → ~8 (incident)</option>
+        <option value="decline">Slow decline (attrition)</option>
+      </select>
+    </div>
+    <div class="ctl">
+      <div class="top"><label for="seed">Random seed</label><output id="seed-o"></output></div>
+      <input type="range" id="seed" min="1" max="40" step="1">
+      <p class="hint">One run of a stochastic model proves nothing. Sweep the seed before
+         believing any difference you see.</p>
+    </div>
+
+    <div class="divider"></div>
+    <div class="pinrow">
+      <button type="button" id="pin">Pin this run</button>
+      <button type="button" id="clear">Clear pin</button>
+    </div>
+  </form>
+
+  <!-- ───────────── output ───────────── -->
+  <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+    <div class="readout" id="readout"></div>
+
+    <div class="legend" id="legend">
+      <span><i style="background:var(--s1)"></i>Current run</span>
+      <span id="leg-pin" hidden><i style="background:var(--s2)"></i>Pinned baseline</span>
+    </div>
+
+    <div class="grid">
+      <figure>
+        <figcaption><span class="t">Cycle time</span>
+          <span class="n">days from start to done, per finished item</span></figcaption>
+        <svg id="c-scatter" viewBox="0 0 460 220" role="img"
+             aria-label="Scatter of cycle time against completion day, with percentile bands"></svg>
+      </figure>
+      <figure>
+        <figcaption><span class="t">Delivery curve</span>
+          <span class="n">cumulative items finished</span></figcaption>
+        <svg id="c-burn" viewBox="0 0 460 220" role="img"
+             aria-label="Cumulative items completed over time"></svg>
+      </figure>
+      <figure>
+        <figcaption><span class="t">Throughput</span>
+          <span class="n">items finished per sprint</span></figcaption>
+        <svg id="c-tp" viewBox="0 0 460 200" role="img"
+             aria-label="Items finished per sprint"></svg>
+      </figure>
+      <figure>
+        <figcaption><span class="t">Work in progress</span>
+          <span class="n">items open · 5-day rolling mean</span></figcaption>
+        <svg id="c-wip" viewBox="0 0 460 200" role="img"
+             aria-label="Work in progress by day"></svg>
+      </figure>
+    </div>
+
+    <p class="note" id="verdict"></p>
+  </div>
+</div>
+
+<footer>
+  Ground truth (effort, blockers, rework) is hidden from every chart above — each is computed
+  only from start and finish dates, the way a team computes them from a board. Parameters are
+  plausible, not measured: trust the direction of a large effect, never the magnitude.
+</footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+"use strict";
+const SPRINT = 15;
+
+/* ---------- seeded RNG ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function makeRng(seed){
+  const r=mulberry32(seed*2654435761>>>0);
+  return {u:r,
+    norm(){let u=0,v=0;while(!u)u=r();while(!v)v=r();
+      return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)},
+    logn(mu,sig){return Math.exp(mu+sig*this.norm())},
+    expo(mean){return -Math.log(1-r())*mean}};
+}
+
+/* ---------- the model ---------- */
+const REGIMES={
+  stable:()=>1,
+  shift:s=>s<12?1.08:s<24?1.38:0.42,
+  decline:s=>Math.max(0.45,1.1-0.022*s)
+};
+
+function simulate(cfg){
+  const rng=makeRng(cfg.seed), mu=Math.log(1.6), sig=0.55;
+  const N=400, items=[];
+  for(let i=0;i<N;i++)items.push({id:i,effort:rng.logn(mu,sig),partner:null,
+    started:null,finished:null,remaining:0,blockedUntil:-1,cc:null,reworked:false,rework:0,extra:false});
+  items.forEach(it=>it.remaining=it.effort);
+
+  // pair a fraction of items -> WIP-in-disguise
+  const nPairs=Math.floor(N*(cfg.paired/100)/2);
+  const pool=items.map((_,i)=>i);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rng.u()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  for(let p=0;p<nPairs;p++){const a=pool[2*p],b=pool[2*p+1];items[a].partner=b;items[b].partner=a;}
+
+  const byId=new Map(items.map(i=>[i.id,i]));
+  let ready=items.slice(), inProg=[], nextId=N;
+  const wipDay=[], doneDay=[], maxDays=cfg.maxDays||1400;
+  const regime=REGIMES[cfg.regime]||REGIMES.stable;
+  let day=0, clearedOn=null;
+
+  for(day=0;day<maxDays;day++){
+    const sprint=Math.floor(day/SPRINT);
+
+    if(cfg.expedite&&rng.u()<cfg.expedite/SPRINT){
+      const it={id:nextId++,effort:rng.logn(mu,sig),partner:null,started:day,finished:null,
+        remaining:0,blockedUntil:-1,cc:null,reworked:false,rework:0,extra:true};
+      it.remaining=it.effort; byId.set(it.id,it); items.push(it); inProg.push(it);
+    }
+    if(cfg.unplanned&&rng.u()<cfg.unplanned/SPRINT){
+      const it={id:nextId++,effort:rng.logn(mu,sig),partner:null,started:null,finished:null,
+        remaining:0,blockedUntil:-1,cc:null,reworked:false,rework:0,extra:true};
+      it.remaining=it.effort; byId.set(it.id,it); items.push(it); ready.unshift(it);
+    }
+
+    while(ready.length&&inProg.length<cfg.wip){
+      let idx=ready.findIndex(c=>c.partner!==null&&inProg.includes(byId.get(c.partner)));
+      if(idx<0)idx=0;
+      const nx=ready.splice(idx,1)[0]; nx.started=day; inProg.push(nx);
+    }
+
+    for(const it of inProg){
+      if(it.blockedUntil>=day)continue;
+      if(it.cc===null&&rng.u()<0.06)it.blockedUntil=day+Math.max(1,Math.floor(rng.expo(2.2)));
+    }
+
+    const workable=inProg.filter(i=>i.blockedUntil<day&&i.cc===null);
+    let cap=cfg.engineers*regime(sprint);
+    if(inProg.length>cfg.engineers){
+      const excess=inProg.length/cfg.engineers;
+      cap*=Math.max(0.35,1-0.18*(excess-1));
+    }
+    if(workable.length){
+      const per=Math.min(cap/workable.length,1);
+      for(const it of workable){it.remaining-=per;if(it.remaining<=0)it.cc=day;}
+    }
+
+    for(const it of inProg.slice()){
+      if(it.partner===null||it.cc===null||it.reworked)continue;
+      const p=byId.get(it.partner); if(!p||p.cc===null)continue;
+      if(rng.u()<0.45){for(const h of [it,p]){h.reworked=true;h.cc=null;h.remaining=0.9;h.rework+=0.9;}}
+      else{it.reworked=true;p.reworked=true;}
+    }
+
+    let fin=0;
+    for(const it of inProg.slice()){
+      if(it.cc===null)continue;
+      if(it.partner!==null){const p=byId.get(it.partner);if(!p||p.cc===null)continue;}
+      it.finished=day+1; inProg.splice(inProg.indexOf(it),1); fin++;
+    }
+    doneDay.push(fin); wipDay.push(inProg.length);
+
+    if(clearedOn===null&&items.filter(i=>!i.extra&&i.finished!==null).length===N)clearedOn=day+1;
+    if(clearedOn!==null&&day>clearedOn+2)break;
+  }
+  return {items,wipDay,doneDay,days:wipDay.length,clearedOn,cfg};
+}
+
+const pct=(arr,p)=>{if(!arr.length)return NaN;const s=[...arr].sort((a,b)=>a-b);
+  return s[Math.max(0,Math.min(s.length-1,Math.ceil(p/100*s.length)-1))]};
+
+function analyse(r){
+  const done=r.items.filter(i=>i.finished!==null);
+  const cts=done.map(i=>i.finished-i.started);
+  const sprints=Math.ceil(r.days/SPRINT), tp=[];
+  for(let s=0;s<sprints;s++)tp.push(r.doneDay.slice(s*SPRINT,(s+1)*SPRINT).reduce((a,b)=>a+b,0));
+  const cum=[]; let t=0; for(const d of r.doneDay){t+=d;cum.push(t);}
+  return {done,cts,tp,cum,
+    p50:pct(cts,50),p85:pct(cts,85),p95:pct(cts,95),
+    spread:pct(cts,95)-pct(cts,50),
+    cleared:r.clearedOn,
+    wipMean:r.wipDay.reduce((a,b)=>a+b,0)/Math.max(1,r.wipDay.length),
+    rework:Math.round(done.reduce((a,b)=>a+b.rework,0))};
+}
+
+/* ---------- chart helpers ---------- */
+const NS="http://www.w3.org/2000/svg";
+const el=(n,a={})=>{const e=document.createElementNS(NS,n);
+  for(const k in a)e.setAttribute(k,a[k]);return e};
+function niceTicks(max,n=4){
+  if(!isFinite(max)||max<=0)return [0];
+  const raw=max/n,mag=Math.pow(10,Math.floor(Math.log10(raw)));
+  const step=[1,2,2.5,5,10].map(m=>m*mag).find(s=>s>=raw)||10*mag;
+  const out=[];for(let v=0;v<=max+step*.001;v+=step)out.push(+v.toFixed(6));return out;
+}
+function frame(svg,{w,h,padL=34,padR=10,padT=24,padB=22,yMax,xMax,yLab,xLab}){
+  svg.textContent="";
+  const x0=padL,y0=h-padB,x1=w-padR,y1=padT;
+  const sx=v=>x0+(x1-x0)*(xMax?v/xMax:0);
+  const sy=v=>y0-(y0-y1)*(yMax?Math.min(v,yMax)/yMax:0);
+  for(const t of niceTicks(yMax)){
+    svg.appendChild(el("line",{x1:x0,x2:x1,y1:sy(t),y2:sy(t),
+      stroke:"var(--grid)","stroke-width":1}));
+    const tx=el("text",{x:x0-6,y:sy(t)+3,"text-anchor":"end",class:"axis",fill:"var(--muted)"});
+    tx.textContent=t; svg.appendChild(tx);
+  }
+  svg.appendChild(el("line",{x1:x0,x2:x1,y1:y0,y2:y0,stroke:"var(--rule)","stroke-width":1}));
+  for(const t of niceTicks(xMax,4)){
+    const tx=el("text",{x:sx(t),y:h-6,"text-anchor":"middle",class:"axis",fill:"var(--muted)"});
+    tx.textContent=t; svg.appendChild(tx);
+  }
+  if(xLab){const tx=el("text",{x:x1,y:y1-10,"text-anchor":"end",class:"axis",fill:"var(--muted)"});
+    tx.textContent=xLab; svg.appendChild(tx);}
+  if(yLab){const tx=el("text",{x:x0-6,y:y1-10,"text-anchor":"end",class:"axis",fill:"var(--muted)"});
+    tx.textContent=yLab; svg.appendChild(tx);}
+  return {sx,sy,x0,x1,y0,y1};
+}
+const path=(pts,f)=>pts.map((p,i)=>(i?"L":"M")+f.sx(p[0]).toFixed(1)+" "+f.sy(p[1]).toFixed(1)).join(" ");
+
+/* ---------- draw ---------- */
+function drawScatter(a,pin){
+  const svg=document.getElementById("c-scatter");
+  const xMax=Math.max(a.cleared||a.done.length,1);
+  const yMax=Math.max(pct(a.cts,99)*1.15,pin?pct(pin.cts,99)*1.15:0,5);
+  const f=frame(svg,{w:460,h:220,yMax,xMax,yLab:"days",xLab:"working day"});
+  const step=Math.max(1,Math.floor(a.done.length/240));
+  a.done.forEach((it,i)=>{ if(i%step)return;
+    svg.appendChild(el("circle",{cx:f.sx(it.finished).toFixed(1),cy:f.sy(it.finished-it.started).toFixed(1),
+      r:2.6,fill:"var(--s1)","fill-opacity":.5,stroke:"var(--surface)","stroke-width":1}));});
+  [["50",a.p50],["85",a.p85],["95",a.p95]].forEach(([lab,v])=>{
+    if(!isFinite(v))return;
+    svg.appendChild(el("line",{x1:f.x0,x2:f.x1,y1:f.sy(v),y2:f.sy(v),stroke:"var(--s1)",
+      "stroke-width":1.5,"stroke-dasharray":lab==="50"?"":"5 3","stroke-opacity":lab==="50"?.95:.7}));
+    const t=el("text",{x:f.x1,y:f.sy(v)-4,"text-anchor":"end",class:"bandlab",fill:"var(--muted)"});
+    t.textContent="p"+lab+" · "+v+"d"; svg.appendChild(t);});
+  if(pin)[["p85",pin.p85]].forEach(([lab,v])=>{
+    if(!isFinite(v))return;
+    svg.appendChild(el("line",{x1:f.x0,x2:f.x1,y1:f.sy(v),y2:f.sy(v),stroke:"var(--s2)",
+      "stroke-width":1.5,"stroke-dasharray":"2 3"}));
+    const t=el("text",{x:f.x0+3,y:f.sy(v)-4,class:"bandlab",fill:"var(--s2)"});
+    t.textContent="pinned "+lab+" · "+v+"d"; svg.appendChild(t);});
+}
+function drawBurn(a,pin){
+  const svg=document.getElementById("c-burn");
+  const xMax=Math.max(a.cum.length,pin?pin.cum.length:0,1);
+  const yMax=Math.max(a.cum[a.cum.length-1]||1,pin?pin.cum[pin.cum.length-1]:0);
+  const f=frame(svg,{w:460,h:220,yMax,xMax,yLab:"items",xLab:"working day"});
+  if(pin)svg.appendChild(el("path",{d:path(pin.cum.map((v,i)=>[i,v]),f),fill:"none",
+    stroke:"var(--s2)","stroke-width":2,"stroke-dasharray":"4 3"}));
+  svg.appendChild(el("path",{d:path(a.cum.map((v,i)=>[i,v]),f),fill:"none",
+    stroke:"var(--s1)","stroke-width":2.5,"stroke-linejoin":"round"}));
+  if(a.cleared){
+    svg.appendChild(el("circle",{cx:f.sx(a.cleared),cy:f.sy(400),r:4,fill:"var(--s1)",
+      stroke:"var(--surface)","stroke-width":1.5}));
+    const t=el("text",{x:f.sx(a.cleared)-6,y:f.sy(400)+12,"text-anchor":"end",class:"bandlab",fill:"var(--ink)"});
+    t.textContent="cleared day "+a.cleared; svg.appendChild(t);}
+}
+function drawBars(id,vals,pinVals,label){
+  const svg=document.getElementById(id);
+  const xMax=Math.max(vals.length,pinVals?pinVals.length:0,1);
+  const yMax=Math.max(...vals,...(pinVals||[0]),1)*1.15;
+  const f=frame(svg,{w:460,h:200,yMax,xMax,yLab:label,xLab:"sprint"});
+  const bw=Math.max(1.5,(f.x1-f.x0)/xMax-2);
+  if(pinVals)svg.appendChild(el("path",{d:path(pinVals.map((v,i)=>[i+.5,v]),f),fill:"none",
+    stroke:"var(--s2)","stroke-width":1.8,"stroke-dasharray":"4 3"}));
+  vals.forEach((v,i)=>{
+    const x=f.sx(i+.5)-bw/2,y=f.sy(v);
+    svg.appendChild(el("rect",{x:x.toFixed(1),y:y.toFixed(1),width:bw.toFixed(1),
+      height:Math.max(0,f.y0-y).toFixed(1),fill:"var(--s1)",rx:Math.min(2,bw/2)}));});
+}
+const roll=(v,n=5)=>v.map((_,i)=>{const s=v.slice(Math.max(0,i-n+1),i+1);
+  return s.reduce((a,b)=>a+b,0)/s.length;});
+function drawWip(a,r,pinR){
+  const svg=document.getElementById("c-wip");
+  const cur=roll(r.wipDay), pinRoll=pinR?roll(pinR.wipDay):null;
+  const xMax=Math.max(cur.length,pinRoll?pinRoll.length:0,1);
+  const yMax=Math.max(...cur,...(pinRoll||[0]),r.cfg.wip,1)*1.25;
+  const f=frame(svg,{w:460,h:200,yMax,xMax,yLab:"items",xLab:"working day"});
+  if(pinRoll)svg.appendChild(el("path",{d:path(pinRoll.map((v,i)=>[i,v]),f),fill:"none",
+    stroke:"var(--s2)","stroke-width":1.6,"stroke-dasharray":"4 3"}));
+  const pts=cur.map((v,i)=>[i,v]);
+  svg.appendChild(el("path",{d:path(pts,f)+` L ${f.sx(xMax)} ${f.y0} L ${f.x0} ${f.y0} Z`,
+    fill:"var(--s1-soft)",stroke:"none"}));
+  svg.appendChild(el("path",{d:path(pts,f),fill:"none",stroke:"var(--s1)","stroke-width":1.8}));
+  const lim=r.cfg.wip;
+  svg.appendChild(el("line",{x1:f.x0,x2:f.x1,y1:f.sy(lim),y2:f.sy(lim),stroke:"var(--warn)",
+    "stroke-width":1.5,"stroke-dasharray":"3 3"}));
+  const t=el("text",{x:f.x1,y:f.sy(lim)-4,"text-anchor":"end",class:"bandlab",fill:"var(--warn)"});
+  t.textContent="limit "+lim; svg.appendChild(t);
+}
+
+/* ---------- readout ---------- */
+const TILES=[
+  {k:"Days to clear 400",get:a=>a.cleared,unit:"d",better:"lower"},
+  {k:"Cycle time p50",get:a=>a.p50,unit:"d",better:"lower"},
+  {k:"Cycle time p85",get:a=>a.p85,unit:"d",better:"lower"},
+  {k:"p50–p95 spread",get:a=>a.spread,unit:"d",better:"lower"},
+  {k:"Mean WIP",get:a=>+a.wipMean.toFixed(1),unit:"",better:"lower"},
+  {k:"Rework incurred",get:a=>a.rework,unit:"d",better:"lower"}
+];
+function readout(a,pin){
+  const host=document.getElementById("readout"); host.textContent="";
+  for(const t of TILES){
+    const v=t.get(a), d=document.createElement("div"); d.className="tile";
+    const k=document.createElement("div"); k.className="k"; k.textContent=t.k;
+    const val=document.createElement("div"); val.className="v";
+    val.textContent=(v==null||!isFinite(v))?"—":v;
+    if(t.unit){const s=document.createElement("small");s.textContent=t.unit;val.appendChild(s);}
+    const dl=document.createElement("div");
+    if(pin){const pv=t.get(pin), diff=(v??0)-(pv??0);
+      dl.className="d "+(Math.abs(diff)<0.05?"flat":(diff>0?"up":"down"));
+      dl.textContent=Math.abs(diff)<0.05?"no change":(diff>0?"+":"")+(+diff.toFixed(1))+" vs pin";
+    }else{dl.className="d flat";dl.textContent="";}
+    d.append(k,val,dl); host.appendChild(d);
+  }
+}
+function verdict(a,cfg){
+  const n=document.getElementById("verdict"); const perPerson=cfg.wip/cfg.engineers;
+  let msg;
+  if(perPerson<1)msg=`<b>Starving.</b> ${cfg.wip} items across ${cfg.engineers} people means a blocked item idles someone with nothing to pick up. A WIP limit has a floor of roughly one per person plus a buffer.`;
+  else if(perPerson>2.5)msg=`<b>Overloaded.</b> ${(+perPerson.toFixed(1))} items per person. Cycle time rises roughly in proportion to WIP — Little's Law, plus a context-switching penalty on top. Nothing here is about how hard anyone is working.`;
+  else if(cfg.paired>=50)msg=`<b>Slicing is the constraint.</b> ${cfg.paired}% of items can't be released alone. Note the delivery curve moved but the spread barely did — a team watching only percentiles would miss this entirely.`;
+  else if(cfg.expedite>=4)msg=`<b>Urgency is running the system.</b> ${cfg.expedite} expedites a sprint. At low volume pre-empting costs about what queueing costs; the damage here is volume, not queue-jumping.`;
+  else msg=`<b>Healthy range.</b> ${(+perPerson.toFixed(1))} items per person, ${cfg.paired}% paired. Change one control at a time, then sweep the seed — a single run of a stochastic model proves nothing.`;
+  n.innerHTML=msg;
+}
+
+/* ---------- presets ---------- */
+const PRESETS={
+  "Balanced":{engineers:3,wip:5,paired:0,expedite:0,unplanned:1,regime:"stable"},
+  "Too much WIP":{engineers:3,wip:14,paired:0,expedite:0,unplanned:1,regime:"stable"},
+  "Starved":{engineers:4,wip:2,paired:0,expedite:0,unplanned:1,regime:"stable"},
+  "Sliced by layer":{engineers:3,wip:6,paired:80,expedite:0,unplanned:1,regime:"stable"},
+  "Expedite-driven":{engineers:3,wip:6,paired:0,expedite:6,unplanned:1,regime:"stable"},
+  "Capacity collapse":{engineers:3,wip:6,paired:0,expedite:0,unplanned:1,regime:"shift"}
+};
+
+/* ---------- wiring ---------- */
+const IDS=["engineers","wip","paired","expedite","unplanned","seed"];
+let pinned=null, pinnedRaw=null;
+
+function cfgFromUI(){
+  const g=id=>+document.getElementById(id).value;
+  return {engineers:g("engineers"),wip:g("wip"),paired:g("paired"),
+    expedite:g("expedite"),unplanned:g("unplanned"),seed:g("seed"),
+    regime:document.getElementById("regime").value};
+}
+function syncOutputs(){
+  for(const id of IDS){
+    const o=document.getElementById(id+"-o"); if(!o)continue;
+    const v=document.getElementById(id).value;
+    o.textContent=id==="paired"?v+"%":v;
+  }
+}
+function markPreset(){
+  const c=cfgFromUI();
+  document.querySelectorAll("#presets button").forEach(b=>{
+    const p=PRESETS[b.dataset.name];
+    const same=Object.keys(p).every(k=>String(p[k])===String(c[k]));
+    b.setAttribute("aria-pressed",same?"true":"false");});
+}
+function run(){
+  syncOutputs(); markPreset();
+  const cfg=cfgFromUI();
+  const r=simulate(cfg), a=analyse(r);
+  readout(a,pinned); verdict(a,cfg);
+  drawScatter(a,pinned); drawBurn(a,pinned);
+  drawBars("c-tp",a.tp,pinned?pinned.tp:null,"items");
+  drawWip(a,r,pinnedRaw);
+  document.getElementById("leg-pin").hidden=!pinned;
+}
+
+(function init(){
+  const host=document.getElementById("presets");
+  for(const name of Object.keys(PRESETS)){
+    const b=document.createElement("button"); b.type="button"; b.textContent=name;
+    b.dataset.name=name; b.setAttribute("aria-pressed","false");
+    b.onclick=()=>{const p=PRESETS[name];
+      for(const k in p)document.getElementById(k==="regime"?"regime":k).value=p[k];
+      run();};
+    host.appendChild(b);
+  }
+  Object.assign(document.getElementById("engineers"),{value:3});
+  Object.assign(document.getElementById("wip"),{value:5});
+  Object.assign(document.getElementById("paired"),{value:0});
+  Object.assign(document.getElementById("expedite"),{value:0});
+  Object.assign(document.getElementById("unplanned"),{value:1});
+  Object.assign(document.getElementById("seed"),{value:7});
+  document.getElementById("regime").value="stable";
+
+  document.getElementById("rail").addEventListener("input",run);
+  document.getElementById("pin").onclick=()=>{
+    const cfg=cfgFromUI(); pinnedRaw=simulate(cfg); pinned=analyse(pinnedRaw); run();};
+  document.getElementById("clear").onclick=()=>{pinned=null;pinnedRaw=null;run();};
+  run();
+})();
+</script>

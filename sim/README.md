@@ -80,3 +80,26 @@ against your own data, never as a result.
 | `experiments.py` | Six experiments, each varying one policy over 20 seeds |
 | `RESULTS.md` | Generated output |
 | `FINDINGS.md` | What it found, including where it contradicts `docs/` |
+| `app.html` | The same model as an interactive page — presets, live charts, pin-and-compare |
+
+## The interactive version
+
+`app.html` runs the model in the browser. Open the file directly, or use the published
+version if one has been shared with you.
+
+Six presets jump to the findings in `FINDINGS.md`. **Pin this run** freezes the current
+configuration as a dashed baseline on every chart, so you can change one control and read
+the difference rather than remembering two sets of numbers.
+
+Two things worth doing first:
+
+- Pin *Balanced*, then drag WIP from 5 to 14. The delivery curve bends away from the
+  baseline and days-to-clear rises by more than half — same people, same work.
+- Pin *Balanced*, then set horizontal slicing to 80%. Watch what **doesn't** move: the
+  p50–p95 spread barely changes while delivery slides out by weeks. That is finding 2 made
+  visible — a team watching only percentiles would not see it.
+
+The page carries the same caveats as the rest of this folder. Every chart on it is
+computed from start and finish dates only; the ground truth the model holds is withheld
+from the charts deliberately, which is the whole reason a simulation can say something
+real data cannot.
