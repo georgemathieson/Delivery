@@ -17,6 +17,8 @@ Most of it is **yours**, not the teams'.
 | `08-decision-tree` | You | Weekly routing aid |
 | `09-sprint-goals` | **Team-facing** | Share when you introduce goals — not in week 1 |
 | `10-story-slicing` | **Team-facing** | Share with 09. Goals don't work on a layer-cut backlog |
+| `11-demand-and-intake` | You, then your sponsor | The portfolio layer. Your highest-leverage work |
+| `12-success-criteria` | You | Checkpoints. Read it now, before anything is invested |
 
 Only **04** and **09** go to teams, and not at the same time. Everything else is your
 own instrumentation. Handing a team `01-diagnosis` reads as "here are six theories about
@@ -39,7 +41,11 @@ is *for*. Don't announce it yet.
 not the one with the worst delivery. You are learning how to run this, and you want your
 mistakes to land somewhere forgiving. Resist starting with all three.
 
-**3. Answer the four open questions.** Roughly 30 minutes in Azure DevOps:
+**3. Count concurrent initiatives across your teams** (`11-demand-and-intake`). One hour,
+needs nobody's permission. If the count exceeds the number of teams, that matters more
+than anything the flow charts will tell you.
+
+**4. Answer the four open questions.** Roughly 30 minutes in Azure DevOps:
 
 - Are the Monte Carlo forecasts roughly accurate while sprints carry over? *(If yes, this
   is a boundary problem, not a flow problem — and that changes everything below.)*
