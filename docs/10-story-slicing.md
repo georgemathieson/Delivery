@@ -20,6 +20,60 @@ right-sizing and does the opposite.
 
 ---
 
+## Two levels, both vertical
+
+The most common overcorrection once a team learns to slice vertically: they stop cutting
+by layer and start writing epics as stories.
+
+| Level | Scope | Example | Role |
+|---|---|---|---|
+| **Capability / epic** | Days to weeks | "An API owner can keep their entries accurate without going through us" | **This is the sprint goal** (`docs/09-sprint-goals.md`) |
+| **Story** | Under the right-sizing threshold | "An owner can edit the description of an endpoint they own" | This is what flows on the board |
+
+They differ in **scope, not axis**. Both go all the way through the stack. A story is a
+thin slice *within* a capability, never a layer of one.
+
+So "an owner can manage and maintain the catalogue" is not a story to write. It is the
+goal, and it splits into:
+
+```
+Owner can edit the description of an endpoint they own
+Owner can add a new endpoint
+Owner can mark an endpoint as deprecated
+Owner can assign a system owner
+```
+
+### Two independent constraints
+
+| | Question | "Add the API" | "Manage the catalogue" | "Edit an endpoint's description" |
+|---|---|---|---|---|
+| **Vertical** | Does it deliver anything on its own? | ✗ | ✓ | ✓ |
+| **Small** | Under the right-size threshold? | ✓ | ✗ | ✓ |
+
+Both, every time. Failing either produces the same symptom in the data — an item sitting
+in progress accruing age — from opposite causes.
+
+This matters because the overcorrection is often *more* damaging than the original
+problem. Cycle times balloon, the aging chart goes red across the board, and the team
+concludes vertical slicing doesn't work here — when what actually happened is they
+stopped slicing.
+
+### Spotting an epic wearing a story's clothes
+
+1. **Contains "and" or "or".** "Manage *and* maintain" is two things minimum.
+2. **Vague verb** — manage, maintain, handle, administer, support, deal with. These are
+   category labels, not actions. Concrete verbs (edit, add, deprecate, submit, search,
+   notify) are story-sized by nature.
+3. **Collective object** — "the catalogue" rather than "an endpoint". Singular objects
+   force singular scope.
+4. **Fails the team's own right-sizing rule** (`docs/04-policies.md`) — more than N days
+   elapsed.
+
+The shape to aim for: **one actor, one concrete verb, one object.** If done can't be
+described in a single sentence, it's a capability, not a story.
+
+---
+
 ## The test
 
 > **If this story were the last one we ever shipped, would anything be better than
