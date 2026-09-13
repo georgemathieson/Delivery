@@ -37,6 +37,7 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 | `docs/10-story-slicing.md` | Thin vertical slices — why "small" and "deliverable" aren't in tension |
 | `docs/11-demand-and-intake.md` | Portfolio WIP — the layer where you have authority and the teams don't |
 | `docs/12-success-criteria.md` | Checkpoints, what determines success, and how you'd know it failed |
+| `docs/13-friction-and-delay.md` | The long tail of small friction — where delay actually comes from |
 | `templates/` | Fillable packs for each cadence event |
 | `teams/` | One folder per team: running log, policies, current state |
 | `sharing/` | Talking to other teams — the talk, the pushback, the small ask |

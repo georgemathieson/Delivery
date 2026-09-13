@@ -35,7 +35,16 @@
 > Any "no" in the last column means that team's forecasts are structurally optimistic.
 > Fix it before doing anything else on that team.
 
-## 4. Blocked days by reason
+## 4. Expedites
+
+| Count this month | Trend | What each one delayed |
+|---|---|---|
+|  |  |  |
+
+> Weekly expedites are not exceptions, they are a process failure. Ask what we are doing
+> that makes so many things urgent.
+
+## 5. Blocked days by reason
 
 | Reason | Days this month | Trend | Owner of the fix |
 |---|---|---|---|
@@ -47,13 +56,13 @@
 | defect |  |  |  |
 | unclear-requirement |  |  |  |
 
-## 5. Experiments
+## 6. Experiments
 
 | Team | Experiment | Status | Result | Next |
 |---|---|---|---|---|
 |  |  | running / concluded |  |  |
 
-## 6. Systemic constraints
+## 7. Systemic constraints
 
 The things blocking more than one team. This section is the point of the meeting.
 
@@ -61,7 +70,7 @@ The things blocking more than one team. This section is the point of the meeting
 |---|---|---|---|---|
 |  |  |  |  |  |
 
-## 7. For the stakeholder pack
+## 8. For the stakeholder pack
 
 - Forecast movements and their causes:
 - The one thing we need from stakeholders:

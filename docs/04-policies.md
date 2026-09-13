@@ -86,18 +86,82 @@ bad luck; thirty blocked days a month on environments is a business case.
 
 ## Unplanned work
 
+**What this means: demand arriving from outside the team.** Production support, an
+escalation, a favour for another team, "can you just look at this". *Not* the tasks
+involved in delivering something already on the board.
+
 - All unplanned work goes on the board. No exceptions, including work that takes an
-  hour. Especially work that takes an hour.
+  hour. Especially work that takes an hour — small interrupts are the ones that never get
+  recorded, and they add up to a quarter of a team's capacity without anyone noticing.
 - It is tagged `unplanned` so it can be counted.
 - It counts against the WIP limit like anything else.
 - Reserve explicit capacity for it based on the measured percentage — don't pretend
   it's zero and absorb it invisibly.
+
+### The test
+
+> **Is this new demand, or is it part of delivering something already on the board?**
+
+Duration is not the test. A two-hour support request is unplanned work. A two-day
+refactor needed to finish the story in progress is not — it is that story.
+
+See "Tasks, items and enablers" in `docs/10-story-slicing.md` for the second half of
+that distinction.
 
 **And it must be included in the throughput history that feeds Monte Carlo.** If
 unplanned work consumes 25% of capacity but is absent from the data, the simulation is
 forecasting a team that has 33% more capacity than the one you actually have. This is
 one of the most common reasons a technically correct Monte Carlo forecast is
 consistently optimistic.
+
+---
+
+## Expedites
+
+Different from unplanned work, and more damaging: an expedite **pre-empts** work already
+in progress. Unplanned work joins the queue; an expedite jumps it, and everything it
+jumped pays for it.
+
+- **Limit the expedite lane — even if the limit is one.** A second expedite waits, or
+  something gives way visibly.
+- **Define entry criteria.** What genuinely qualifies? Write it down before the next one
+  arrives, because in the moment everything qualifies.
+- **Track the frequency.** If you are expediting weekly, it is not an exception, it is a
+  process failure. Count them monthly alongside blocked days.
+- **Make the cost visible.** Every expedite delays something else. Name what it delayed,
+  in the review, out loud. Treat them like a credit card: usable, but paid off.
+
+Expedites should be rare, deliberate, and slightly uncomfortable. That discomfort is the
+signal they are being used responsibly — a frictionless expedite lane becomes the default
+route within a quarter.
+
+And ask the question underneath, which is the one that actually fixes it:
+
+> **What are we doing wrong that makes so many things urgent?**
+
+Recurring expedites are almost never a series of unrelated emergencies. They are a
+symptom — of intake that isn't managed, of forecasts nobody believes, or of quality
+problems surfacing late.
+
+*(Policy shape from Paul Brown, ["The Dirty Secret Behind Agile
+Failure"](https://thrivve.partners/the-dirty-secret-behind-agile-failure).)*
+
+---
+
+## Ongoing prioritisation
+
+Most teams prioritise at intake and then never again. Once work is in progress it goes
+out of sight, and old items linger while newer, shinier ones leapfrog them.
+
+In a flow system prioritisation is continuous, and the daily decision is not *what to
+start* but **what to finish next**.
+
+- Visualise work item age, so the decision has information behind it.
+- When all else is equal, **pull the oldest item first**.
+- Have an explicit pull policy, so this isn't re-argued every morning.
+
+Work waiting silently is not harmless. It is accruing risk and decay while looking like
+nothing is happening.
 
 ---
 
