@@ -31,6 +31,7 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 | `docs/07-tooling-shortlist.md` | Software that can help, and what to build vs buy |
 | `docs/08-diagnostic-decision-tree.md` | Routing: which hypothesis to chase, and how to triage an aged item |
 | `docs/09-sprint-goals.md` | Writing sprint goals that don't reinstate scope commitment |
+| `docs/10-story-slicing.md` | Thin vertical slices — why "small" and "deliverable" aren't in tension |
 | `templates/` | Fillable packs for each cadence event |
 | `teams/` | One folder per team: running log, policies, current state |
 

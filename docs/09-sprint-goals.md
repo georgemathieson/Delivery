@@ -66,6 +66,54 @@ goal can be achieved by learning the answer is no.
 
 ---
 
+## The goal does not fill the sprint
+
+The most common misreading, and worth being explicit about.
+
+A sprint goal is the **head of the queue, not the queue**. It answers "what is this
+sprint *for*?" — not "what will we do?" Work outside the goal still flows: the next
+capability, defects, unplanned work, small requests.
+
+So this reasoning is a trap:
+
+> "The goal only covers four stories, and we normally finish fifteen — so the team won't
+> have enough to do. I'd better make the goal bigger."
+
+That is a **utilisation** question: how do I fill the container? It is the model that
+story points were retired to escape, returning in a new costume. The correct response to
+"that's only four stories" is *"good — we'll finish it by day four and pull the next
+thing."*
+
+A goal that consumes the whole sprint is a **bad** goal, because a single blocker then
+takes the goal down with it. Leave margin deliberately.
+
+### If you need a three-clause goal to fill the sprint, that's a WIP signal
+
+When a goal has to be stretched — *"...and owners can create and edit endpoints, and be
+notified when a request arrives"* — it is telling you the team is running three or four
+unrelated capabilities in parallel. Look at what sequencing them instead does:
+
+| | Four in parallel | Sequenced, goal-led |
+|---|---|---|
+| Capability 1 done | day 14 | **day 4** |
+| Capability 2 done | day 14 | day 7 |
+| Throughput | 15 items | 15 items |
+
+Identical throughput. A quarter of the cycle time on the first capability, and it is
+deployable — and learnable from — ten days earlier. That is Little's Law, and it is
+hypothesis H1 (`docs/01-diagnosis.md`) appearing in planning rather than in a chart.
+
+**The sprint goal is the device that forces the sequencing.** Its "limiting" quality is
+not a side effect to be worked around — it is the entire mechanism.
+
+### If the goal feels reverse-engineered
+
+Suspect the backlog, not your goal-writing. A backlog sliced by layer ("add the API",
+"add the UI") is a **build plan**, and no honest outcome can be extracted from a build
+plan — which is exactly what reverse-engineering feels like. See `docs/10-story-slicing.md`.
+
+---
+
 ## Rules
 
 **One goal per sprint.** Two goals is no goal — the moment they conflict, the team has
@@ -78,14 +126,17 @@ than pursued. Your role is to ask whether it passes the two tests, not to author
 
 **Write it before selecting the work, not after.** A goal reverse-engineered from a
 pre-picked story list will always be a scope list, however it's phrased. Goal first, then
-"what's the smallest set of work that gets us there?"
+"what's the smallest set of work that gets us there?" The artefacts look the same either
+way; only the direction of travel differs, and it decides whether the goal survives its
+plan being wrong.
 
 **Not every sprint needs one.** If a team is genuinely running a steady flow of unrelated
 small items, an invented goal is worse than an honest "this sprint is flow — no single
 theme". Manufacturing a goal to fill a template is how the practice dies.
 
 **It doesn't constrain what else gets done.** Work outside the goal still flows. The goal
-says what this fortnight is *for*, not what is permitted.
+says what this fortnight is *for*, not what is permitted. It is the tiebreaker when two
+things compete for attention, and the thing you protect when the sprint goes wrong.
 
 ---
 
@@ -133,3 +184,5 @@ being true.
 
 > **A sprint goal says what this sprint is for. If it can only be met by finishing exactly
 > the stories we picked, it isn't a goal — it's a list.**
+
+> **And it doesn't have to fill the sprint. It's the head of the queue, not the queue.**
