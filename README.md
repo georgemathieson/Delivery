@@ -39,6 +39,7 @@ This repository is the instrumentation and the operating rhythm for acting on fl
 | `docs/12-success-criteria.md` | Checkpoints, what determines success, and how you'd know it failed |
 | `docs/13-friction-and-delay.md` | The long tail of small friction — where delay actually comes from |
 | `docs/14-a-week-in-practice.md` | A worked example of the weekly rhythm, hour by hour |
+| `docs/15-risk-register.md` | Risk scoring that derives from the flow measures instead of gut feel |
 | `templates/` | Fillable packs for each cadence event |
 | `teams/` | One folder per team: running log, policies, current state |
 | `sharing/` | Talking to other teams — the talk, the pushback, the small ask |

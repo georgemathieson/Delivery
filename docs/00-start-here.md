@@ -21,6 +21,7 @@ Most of it is **yours**, not the teams'.
 | `12-success-criteria` | You | Checkpoints. Read it now, before anything is invested |
 | `13-friction-and-delay` | You | Why delay is a tail, not a few blockers. Shapes what you listen for |
 | `14-a-week-in-practice` | You | A worked week. Read alongside `03` before your first review |
+| `15-risk-register` | You, then your sponsor | Only if the organisation asks for a register. Reuses the aging ladder rather than adding a scale |
 | `sharing/` | You | For talking to other teams. Not before you have results — see its README |
 | `sim/` | You | Where the policies break. Read `sim/FINDINGS.md`; it corrects four things in `docs/` |
 
