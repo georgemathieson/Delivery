@@ -148,6 +148,12 @@ the thing that will most directly earn stakeholder trust over a year.
 
 ---
 
+Where the organisation requires a risk register, these measures are what it should be
+scored from — `docs/15-risk-register.md` maps each signal to the register entry it
+generates, so likelihood and impact are read off data rather than guessed in a workshop.
+
+---
+
 ## What to stop measuring
 
 | Stop | Why |

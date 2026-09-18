@@ -66,6 +66,10 @@ Derived from your own cycle-time distribution, refreshed quarterly.
 | Past the 85th percentile | Discussed at the next standup with a named next action and owner |
 | Past the 95th percentile | Escalated to you. Either unblock it, split it, or explicitly stop it |
 
+These three bands are also the risk tiers in `docs/15-risk-register.md` — Watch, Act,
+Escalate — so an aging band and a risk tier mean the same thing and trigger the same
+response, rather than running two ladders side by side.
+
 **"Explicitly stop it" is a real option** and is used far too rarely. An item that has
 been in progress for four times the typical cycle time is telling you something about
 its readiness or its value. Abandoning it is often the correct call, and normalising
